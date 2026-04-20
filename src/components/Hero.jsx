@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import {
   MessageCircle,
@@ -27,9 +27,26 @@ const Hero = ({
   const servicioLabel = servicio && servicio.trim() ? servicio : "Técnico";
   const zona = comuna && comuna.trim() ? comuna : "tu zona";
 
+  // Estado para la microanimación de búsqueda
+  const [searchStep, setSearchStep] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSearchStep((prev) => (prev + 1) % 3);
+    }, 3000); // Cambia cada 3 segundos
+    return () => clearInterval(interval);
+  }, []);
+
+  const searchStates = [
+    { icon: "🔍", text: "Buscando profesionales cercanos..." },
+    { icon: "✓", text: "3 disponibles en tu zona" },
+    { icon: "⚡", text: "Tiempo estimado: <10 min" },
+  ];
+
+  const currentState = searchStates[searchStep];
+
   const handleWhatsAppClick = () => {
     toast.success("Conectando con un técnico…", { duration: 1800 });
-    // Allow default navigation (target _blank) to proceed.
   };
 
   return (
@@ -73,72 +90,75 @@ const Hero = ({
         </div>
 
         {/* Main copy */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-8 md:gap-10">
           <h1
             data-testid="hero-title"
             className="ps-rise ps-delay-2 font-display text-[36px] leading-[0.95] sm:text-5xl md:text-6xl lg:text-[80px] font-black uppercase"
           >
-            ¿Necesitas un técnico <br className="hidden sm:block" />
-            urgente en tu hogar?
+            ¿Necesitas un servicio urgente?
           </h1>
+
+          <h3
+            data-testid="hero-subtitle-h3"
+            className="ps-rise ps-delay-2 font-display text-lg sm:text-2xl md:text-3xl font-black uppercase leading-tight text-zinc-900"
+          >
+            Te conectamos con un profesional en minutos
+          </h3>
 
           <p
             data-testid="hero-subtitle"
-            className="ps-rise ps-delay-3 font-display text-xl sm:text-2xl md:text-3xl font-black leading-tight"
+            className="ps-rise ps-delay-3 text-base sm:text-lg md:text-xl font-bold max-w-3xl leading-relaxed"
           >
-            <span className="bg-black text-[#FFCC00] px-2 inline-block">
-              {servicioLabel}
-            </span>{" "}
-            en{" "}
-            <span className="inline-flex items-center gap-1 underline decoration-black decoration-4 underline-offset-[6px]">
-              <MapPin size={22} strokeWidth={3} /> {zona}
-            </span>{" "}
-            disponible ahora.
-          </p>
-
-          <p className="ps-rise ps-delay-3 text-base sm:text-lg font-bold max-w-2xl">
-            Te conectamos con un técnico en minutos, sin complicaciones.
-            {problema ? (
-              <>
-                {" "}
-                <span className="underline decoration-black decoration-2">
-                  ({problema})
-                </span>
-              </>
-            ) : null}
+            Gasfitería, electricidad, aire acondicionado, abogados y más. 
+            <span className="block mt-2 text-zinc-700">
+              Solicita ahora y recibe respuesta rápida en tu ciudad.
+            </span>
           </p>
 
           {/* CTAs */}
-          <div className="ps-rise ps-delay-4 flex flex-col sm:flex-row gap-3 sm:gap-4 mt-2">
+          <div className="ps-rise ps-delay-4 flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6">
+            <button
+              type="button"
+              data-testid="hero-form-btn"
+              onClick={onOpenForm}
+              className="btn-primary sm:max-w-md text-base md:text-lg py-5"
+            >
+              <ArrowDown size={24} strokeWidth={2.5} />
+              <span className="flex flex-col items-center leading-tight">
+                <span>Solicitar servicio ahora</span>
+                <span className="text-[11px] md:text-xs font-bold opacity-80 normal-case tracking-normal">
+                  respuesta en minutos
+                </span>
+              </span>
+            </button>
             <a
               data-testid="hero-whatsapp-btn"
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
               onClick={handleWhatsAppClick}
-              className="btn-primary sm:max-w-md text-base md:text-xl py-5 ps-breath"
+              className="btn-secondary sm:max-w-xs py-5"
             >
-              <MessageCircle size={24} strokeWidth={2.5} />
-              <span className="flex flex-col items-center leading-tight">
-                <span>Hablar por WhatsApp</span>
-                <span className="text-[11px] md:text-xs font-bold opacity-80 normal-case tracking-normal">
-                  respuesta en minutos
-                </span>
-              </span>
+              <MessageCircle size={18} strokeWidth={3} />
+              Hablar por WhatsApp
             </a>
-            <button
-              type="button"
-              data-testid="hero-form-btn"
-              onClick={onOpenForm}
-              className="btn-secondary sm:max-w-xs"
-            >
-              <ArrowDown size={18} strokeWidth={3} />
-              Prefiero el formulario
-            </button>
+          </div>
+
+          {/* Live search animation */}
+          <div className="ps-rise ps-delay-4 mt-6 bg-white border-2 border-black rounded-sm p-4 md:p-5 inline-flex flex-col gap-2 max-w-sm">
+            <div className="flex items-center gap-3">
+              <span className="inline-block w-2.5 h-2.5 bg-[#25D366] rounded-full ps-search-pulse" />
+              <span className="text-sm md:text-base font-black text-zinc-900">
+                {currentState.text}
+              </span>
+            </div>
+            <div className="text-[10px] md:text-xs text-zinc-600 font-bold uppercase tracking-wider">
+              Sistema activo · Búsqueda en vivo
+            </div>
           </div>
 
           {/* Urgency micro-strip */}
-          <div className="ps-rise ps-delay-4 flex flex-wrap gap-2 mt-2">
+          <div className="ps-rise ps-delay-4 flex flex-wrap gap-2 mt-4">
             <span className="chip" data-testid="trust-badge-response">
               <Zap size={14} strokeWidth={3} /> Respuesta promedio &lt; 5 min
             </span>

@@ -42,20 +42,20 @@
     animation-delay: 0.32s;
 }
 
-/* Pulse for urgency dot — extremely slow, calm */
+/* Pulse for urgency dot — extremely slow, calm fade in/out */
 @keyframes ps-pulse {
-    0%,
-    100% {
-        transform: scale(1);
+    0% {
         opacity: 1;
     }
     50% {
-        transform: scale(1.18);
-        opacity: 0.5;
+        opacity: 0.2;
+    }
+    100% {
+        opacity: 1;
     }
 }
 .ps-pulse-dot {
-    animation: ps-pulse 6s ease-in-out infinite;
+    animation: ps-pulse 1.5s ease-in-out infinite !important;
 }
 
 /* Soft breathing glow (for the floating WA) — very slow */
@@ -73,4 +73,56 @@
 }
 .ps-breath {
     animation: ps-breath 7s ease-in-out infinite;
+}
+
+/* Soft fade-in/fade-out for activity text transitions */
+@keyframes ps-text-fade {
+    0% {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+}
+
+/* Floating pulse for search indicator */
+@keyframes ps-search-pulse {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+        background-color: #25D366;
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.5;
+        background-color: #ffffff;
+        box-shadow: 0 0 8px 2px rgba(37, 211, 102, 0.4);
+    }
+}
+.ps-search-pulse {
+    animation: ps-search-pulse 1s ease-in-out infinite !important;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: scrollLeft 20s linear infinite !important;
+}
+
+/* DERECHA → IZQUIERDA */
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }

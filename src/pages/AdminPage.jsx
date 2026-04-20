@@ -167,7 +167,7 @@ const AdminPage = () => {
               Panel de Leads
             </h1>
             <p className="text-[11px] md:text-xs font-bold uppercase tracking-widest text-zinc-400">
-              Actualización automática · cada 15s
+              Actualización automática · cada 5s
             </p>
           </div>
         </div>

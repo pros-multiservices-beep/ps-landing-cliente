@@ -1,6 +1,6 @@
 import React from "react";
 import { toast } from "sonner";
-import { MessageCircle } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 
 const FloatingWhatsApp = ({
   phone = "56989675705",
@@ -23,16 +23,20 @@ const FloatingWhatsApp = ({
       className="fixed bottom-5 right-5 md:bottom-8 md:right-8 z-50 group"
     >
       <span className="relative inline-flex items-center">
-        {/* Subtle breathing ring */}
+        {/* glow */}
         <span className="absolute inset-0 -m-1 rounded-[2px] bg-[#25D366] opacity-40 blur-[10px] group-hover:opacity-70 transition-opacity" />
-        <span className="relative inline-flex items-center gap-2 bg-[#25D366] text-black brutal-border brutal-shadow px-4 py-3 md:px-5 md:py-4 font-black uppercase tracking-wider text-sm md:text-base ps-breath group-hover:bg-[#1DA851] group-hover:text-white transition-colors">
-          <MessageCircle size={22} strokeWidth={2.5} />
+
+        <span className="relative inline-flex items-center gap-2 bg-[#25D366] text-white brutal-border brutal-shadow px-4 py-3 md:px-5 md:py-4 font-black uppercase tracking-wider text-sm md:text-base ps-breath group-hover:bg-[#1DA851] group-hover:text-white transition-colors">
+          
+          <FaWhatsapp size={22} />
+
           <span className="hidden sm:flex flex-col leading-tight">
             <span>WhatsApp</span>
             <span className="text-[10px] font-bold opacity-80 normal-case tracking-normal">
               respuesta en minutos
             </span>
           </span>
+
         </span>
       </span>
     </a>

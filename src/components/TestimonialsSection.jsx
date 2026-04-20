@@ -1,5 +1,4 @@
-import React from "react";
-import Marquee from "react-fast-marquee";
+import React, { useEffect, useRef, useState } from "react";
 import { Star, Quote, MapPin } from "lucide-react";
 
 const TESTIMONIOS = [
@@ -32,7 +31,7 @@ const Card = ({ t, idx }) => (
       <Quote size={20} strokeWidth={2.5} className="text-zinc-300" />
     </div>
     <p className="font-display text-[15px] md:text-base font-bold leading-snug min-h-[64px]">
-      “{t.texto}”
+      "{t.texto}"
     </p>
     <div className="flex items-center justify-between border-t-2 border-black pt-2.5 mt-1">
       <div>
@@ -53,6 +52,19 @@ const TestimonialsSection = () => {
       data-testid="testimonials-section"
       className="bg-white section-divider py-12 md:py-20"
     >
+      <style>{`
+        @keyframes ps-testimonials-slide {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .ps-testimonials-wrapper {
+          display: flex !important;
+          gap: 8px !important;
+          width: max-content !important;
+          animation: ps-testimonials-slide 60s linear infinite !important;
+        }
+      `}</style>
+      
       <div className="max-w-6xl mx-auto px-4 md:px-8 mb-6 md:mb-10 flex items-center gap-3 flex-wrap">
         <span className="chip">Clientes reales</span>
         <span
@@ -66,19 +78,16 @@ const TestimonialsSection = () => {
         </span>
       </div>
 
-      <Marquee
-        speed={4}
-        direction="left"
-        gradient={true}
-        gradientColor="rgb(255,255,255)"
-        gradientWidth={40}
-        pauseOnHover
-        className="py-2"
-      >
-        {TESTIMONIOS.map((t, i) => (
-          <Card key={i} t={t} idx={i} />
-        ))}
-      </Marquee>
+      <div className="w-full overflow-hidden bg-white py-2">
+        <div className="ps-testimonials-wrapper">
+          {TESTIMONIOS.map((t, i) => (
+            <Card key={i} t={t} idx={i} />
+          ))}
+          {TESTIMONIOS.map((t, i) => (
+            <Card key={`dup-${i}`} t={t} idx={`dup-${i}`} />
+          ))}
+        </div>
+      </div>
     </section>
   );
 };
