@@ -51,8 +51,7 @@ const Footer = () => {
       </div>
 
       <div className="max-w-6xl mx-auto mt-8 pt-6 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-bold uppercase tracking-widest text-zinc-500">
-        <p>© {new Date().getFullYear()} ProSolución. Todos los derechos reservados.</p>
-        <p>ProSolución es un producto desarrollado y operado por GFC Systems Nexus SpA. 
+        <p>© {new Date().getFullYear()} ProSolución. Todos los derechos reservados. <br/> Producto desarrollado y operado por GFC Systems Nexus SpA. 
           <br/>Santiago, Chile.</p>
       </div>
     </footer>
